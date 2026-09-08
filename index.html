@@ -299,6 +299,81 @@ h2.title em{font-family:var(--script);font-style:normal;font-size:1.32em;
 .sign.in{opacity:1;}
 
 /* ============================================================
+   THE ARCADE
+   ============================================================ */
+.tabs{display:flex;gap:10px;flex-wrap:wrap;margin-top:40px;}
+.tab{font-family:var(--sans);font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;
+  padding:12px 22px;border-radius:99px;cursor:pointer;color:var(--muted);
+  border:1px solid var(--line);background:var(--glass);backdrop-filter:blur(8px);transition:.45s var(--ease);}
+.tab:hover{color:var(--cream);border-color:var(--rose);}
+.tab.on{color:#2a0a16;background:linear-gradient(100deg,var(--rose),var(--gold));border-color:transparent;font-weight:400;}
+.panel{display:none;margin-top:26px;padding:clamp(20px,4vw,38px);border-radius:24px;
+  background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.015));
+  border:1px solid var(--line);backdrop-filter:blur(12px);}
+.panel.on{display:block;animation:panelIn .7s var(--ease);}
+@keyframes panelIn{from{opacity:0;transform:translateY(18px);}}
+.g-head{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:22px;}
+.g-head p{margin:0;font-family:var(--serif);font-style:italic;color:var(--muted);font-size:1.02rem;max-width:52ch;}
+.g-stat{font-size:.58rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);white-space:nowrap;}
+.g-btn{border:1px solid var(--line);background:var(--glass);color:var(--cream);padding:11px 24px;border-radius:99px;
+  font-family:var(--sans);font-size:.58rem;letter-spacing:.24em;text-transform:uppercase;cursor:pointer;transition:.45s var(--ease);}
+.g-btn:hover{background:rgba(255,143,177,.16);border-color:var(--rose);letter-spacing:.3em;}
+.g-win{margin-top:22px;font-family:var(--serif);font-style:italic;font-size:clamp(1.05rem,2.2vw,1.28rem);
+  line-height:1.8;color:var(--blush);opacity:0;transform:translateY(12px);
+  transition:opacity .9s var(--ease),transform .9s var(--ease);}
+.g-win.in{opacity:1;transform:none;}
+
+/* memory */
+.mgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(8px,1.6vw,14px);}
+@media(max-width:620px){.mgrid{grid-template-columns:repeat(3,1fr);}}
+.mcard{perspective:900px;aspect-ratio:3/4;cursor:pointer;}
+.mcard-in{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .6s var(--ease);}
+.mcard.up .mcard-in,.mcard.done .mcard-in{transform:rotateY(180deg);}
+.mface{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;
+  border-radius:14px;overflow:hidden;border:1px solid var(--line);}
+.mface.front{background:linear-gradient(150deg,rgba(255,143,177,.24),rgba(243,217,168,.1));
+  display:grid;place-items:center;font-family:var(--script);font-size:1.8rem;color:var(--blush);}
+.mface.back{transform:rotateY(180deg);background:#170c1a;}
+.mface.back img{width:100%;height:100%;object-fit:cover;}
+.mcard.done{animation:matched .6s var(--ease);}
+.mcard.done .mface.back{box-shadow:0 0 0 2px var(--rose),0 0 30px rgba(255,143,177,.45);}
+@keyframes matched{50%{transform:scale(1.07);}}
+
+/* quiz */
+.qbar{height:2px;background:rgba(255,255,255,.08);border-radius:9px;margin-bottom:26px;overflow:hidden;}
+.qbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--rose),var(--gold));transition:width .6s var(--ease);}
+.q{font-family:var(--serif);font-size:clamp(1.15rem,2.6vw,1.55rem);color:var(--blush);margin:0 0 22px;line-height:1.42;}
+.opts{display:grid;gap:12px;}
+.opt{text-align:left;font-family:var(--serif);font-size:1.05rem;color:var(--cream);padding:16px 20px;border-radius:14px;
+  border:1px solid var(--line);background:rgba(255,255,255,.04);cursor:pointer;transition:.35s var(--ease);}
+.opt:hover:not(:disabled){border-color:var(--rose);background:rgba(255,143,177,.1);transform:translateX(6px);}
+.opt.right{border-color:#8fe0b0;background:rgba(143,224,176,.14);}
+.opt.wrong{border-color:var(--rose-deep);background:rgba(224,80,127,.16);}
+.qfb{margin-top:20px;font-family:var(--serif);font-style:italic;color:var(--gold);min-height:3.2em;line-height:1.8;
+  opacity:0;transition:opacity .6s var(--ease);}
+.qfb.in{opacity:1;}
+
+/* scratch */
+.scratch{position:relative;border-radius:18px;overflow:hidden;min-height:min(260px,52vw);
+  display:grid;place-items:center;text-align:center;padding:clamp(22px,5vw,40px);
+  background:radial-gradient(circle at 50% 40%,rgba(255,143,177,.16),rgba(255,255,255,.03));border:1px solid var(--line);}
+.scratch .secret{font-family:var(--serif);font-size:clamp(1.05rem,2.4vw,1.4rem);line-height:1.85;color:var(--blush);max-width:46ch;}
+.scratch canvas{position:absolute;inset:0;width:100%;height:100%;cursor:crosshair;touch-action:none;
+  transition:opacity .9s var(--ease);}
+
+/* the question */
+.ask{text-align:center;position:relative;min-height:280px;display:grid;place-items:center;}
+.ask h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.4rem,3.6vw,2.2rem);color:var(--blush);margin:0;line-height:1.38;}
+.ask .askp{font-family:var(--serif);font-style:italic;color:var(--muted);margin:14px 0 0;font-size:1.05rem;}
+.btns{display:flex;gap:16px;justify-content:center;margin-top:30px;}
+.yes,.no{padding:15px 38px;border-radius:99px;font-family:var(--sans);font-size:.66rem;letter-spacing:.24em;
+  text-transform:uppercase;cursor:pointer;transition:.4s var(--ease);}
+.yes{border:none;color:#2a0a16;background:linear-gradient(100deg,var(--rose),var(--gold));}
+.yes:hover{transform:scale(1.07);box-shadow:0 0 44px rgba(255,143,177,.42);}
+.no{border:1px solid var(--line);background:var(--glass);color:var(--muted);}
+.no.loose{position:absolute;margin:0;transition:left .35s var(--ease),top .35s var(--ease),transform .4s var(--ease);}
+
+/* ============================================================
    FINALE
    ============================================================ */
 .finale{min-height:100svh;display:grid;place-items:center;text-align:center;}
@@ -408,6 +483,69 @@ h2.title em{font-family:var(--script);font-style:normal;font-size:1.32em;
       <div class="greet">My dearest Ashtene,</div>
       <div class="type" id="typeBox"></div>
       <div class="sign" id="sign">Always yours &nbsp;♡</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE ARCADE ============ -->
+<section id="play">
+  <div class="wrap">
+    <div class="eyebrow reveal">Play with me</div>
+    <h2 class="title reveal" data-d="1">I cannot take you anywhere yet — so I built you <em>somewhere</em>.</h2>
+    <p class="lede reveal" data-d="2">Four small things to do when you miss me. Which is hopefully often.</p>
+
+    <div class="tabs reveal" data-d="3">
+      <button class="tab on" data-g="match">Match Us</button>
+      <button class="tab" data-g="quiz">Do You Know Me?</button>
+      <button class="tab" data-g="scratch">Scratch This</button>
+      <button class="tab" data-g="ask">One Question</button>
+    </div>
+
+    <!-- memory -->
+    <div class="panel on" id="p-match">
+      <div class="g-head">
+        <p>Find every matching pair of you. I made the cards out of my favourite photos, so you cannot lose, really.</p>
+        <div class="g-stat"><span id="mMoves">0</span> Moves &nbsp;·&nbsp; <span id="mFound">0</span>/6 Pairs</div>
+      </div>
+      <div class="mgrid" id="mGrid"></div>
+      <div class="g-win" id="mWin"></div>
+      <div style="margin-top:22px"><button class="g-btn" id="mAgain">Shuffle again</button></div>
+    </div>
+
+    <!-- quiz -->
+    <div class="panel" id="p-quiz">
+      <div class="qbar"><i id="qBar"></i></div>
+      <div id="qBody">
+        <h3 class="q" id="qText"></h3>
+        <div class="opts" id="qOpts"></div>
+        <div class="qfb" id="qFb"></div>
+      </div>
+      <div style="margin-top:24px"><button class="g-btn" id="qNext" style="display:none">Next question</button></div>
+    </div>
+
+    <!-- scratch -->
+    <div class="panel" id="p-scratch">
+      <div class="g-head">
+        <p>There is something written under there. Use your finger, or your mouse — take your time.</p>
+      </div>
+      <div class="scratch" id="scratch">
+        <div class="secret">If I could reach through this screen right now, I would. I would fix your hair, hold your face, and tell you this properly instead of typing it.<br><br>Until then, this is me holding you the only way I can. I love you, Ashtene — more than any of these words managed to say.</div>
+        <canvas id="scCanvas"></canvas>
+      </div>
+    </div>
+
+    <!-- the question -->
+    <div class="panel" id="p-ask">
+      <div class="ask" id="ask">
+        <div>
+          <h3 id="askQ">Will you still be mine on our eighth monthsary?</h3>
+          <p class="askp" id="askP">Choose carefully. One of these buttons does not work.</p>
+          <div class="btns" id="askBtns">
+            <button class="yes" id="yesBtn">Yes, always</button>
+            <button class="no" id="noBtn">No</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -762,6 +900,283 @@ if (matchMedia('(hover:hover)').matches){
     inner.style.transform = 'translateY(' + (scrollY * .28) + 'px)';
     inner.style.opacity = String(Math.max(0, 1 - scrollY / (innerHeight * .78)));
   }, { passive:true });
+})();
+
+/* ============================================================
+   13. THE ARCADE
+   ============================================================ */
+
+/* ---- tabs ---- */
+(function tabs(){
+  const btns = document.querySelectorAll('.tab');
+  btns.forEach(b => b.addEventListener('click', () => {
+    btns.forEach(x => x.classList.remove('on'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
+    b.classList.add('on');
+    document.getElementById('p-' + b.dataset.g).classList.add('on');
+    if (b.dataset.g === 'scratch') window.initScratch();
+  }));
+})();
+
+/* ---- game 1: match us ---- */
+(function memory(){
+  const grid = document.getElementById('mGrid');
+  const mMoves = document.getElementById('mMoves'), mFound = document.getElementById('mFound');
+  const win = document.getElementById('mWin');
+  const PICK = IMAGES.slice(0, 6);
+  let first = null, lock = false, moves = 0, found = 0;
+
+  const WINS = [
+    "Perfect memory. Of course — you never forget anything I say either, do you?",
+    "You found every one of us. That is exactly how this works: I keep finding you too.",
+    "Done, and beautifully. Now imagine doing this in person, sitting next to me."
+  ];
+
+  function deal(){
+    first = null; lock = false; moves = 0; found = 0;
+    mMoves.textContent = '0'; mFound.textContent = '0';
+    win.classList.remove('in'); win.textContent = '';
+    const deck = [...PICK, ...PICK].map((im, i) => ({ im, k: i % 6 }));
+    for (let i = deck.length - 1; i > 0; i--){
+      const j = (Math.random() * (i + 1)) | 0;
+      [deck[i], deck[j]] = [deck[j], deck[i]];
+    }
+    grid.innerHTML = '';
+    deck.forEach(c => {
+      const d = document.createElement('div');
+      d.className = 'mcard';
+      d.dataset.k = String(c.k);
+      d.innerHTML =
+        '<div class="mcard-in">' +
+          '<div class="mface front">A</div>' +
+          '<div class="mface back"><img src="' + c.im.src + '" alt="Ashtene" loading="lazy"></div>' +
+        '</div>';
+      d.addEventListener('click', () => pick(d));
+      grid.appendChild(d);
+    });
+  }
+
+  function pick(d){
+    if (lock || d.classList.contains('up') || d.classList.contains('done')) return;
+    d.classList.add('up');
+    if (!first){ first = d; return; }
+    moves++; mMoves.textContent = String(moves);
+    if (first.dataset.k === d.dataset.k){
+      first.classList.add('done'); d.classList.add('done');
+      first.classList.remove('up'); d.classList.remove('up');
+      first = null; found++; mFound.textContent = String(found);
+      const r = d.getBoundingClientRect();
+      window.fireHearts(r.left + r.width / 2, r.top + r.height / 2, 18);
+      if (found === 6) setTimeout(done, 500);
+    } else {
+      lock = true;
+      const a = first; first = null;
+      setTimeout(() => { a.classList.remove('up'); d.classList.remove('up'); lock = false; }, 850);
+    }
+  }
+
+  function done(){
+    const tier = moves <= 9 ? 0 : moves <= 16 ? 1 : 2;
+    win.textContent = WINS[tier] + '  (' + moves + ' moves)';
+    win.classList.add('in');
+    window.fireHearts(innerWidth / 2, innerHeight / 2, 90);
+  }
+
+  document.getElementById('mAgain').addEventListener('click', deal);
+  deal();
+})();
+
+/* ---- game 2: do you know me? ----
+   These are written to be true no matter what, but swap in your
+   own answers and the real story and it will hit ten times harder. */
+const QUIZ = [
+  { q: "How long have we officially been us, as of today?",
+    a: ["Six months", "Seven months", "Long enough that I stopped counting"],
+    c: 1,
+    ok: "Seven months. Two hundred and twelve days of you being the best part of mine.",
+    no: "Seven, my love. Seven whole months — and I have felt every single one of them." },
+  { q: "What do I love most about you?",
+    a: ["Your laugh", "Your eyes", "All of it — I refuse to pick"],
+    c: 2,
+    ok: "Correct. I refuse to pick. It has always been all of you.",
+    no: "Close, but no. It is all of it. Every part. I was never able to choose." },
+  { q: "Who always falls asleep on call first?",
+    a: ["You", "Me", "Whoever pretends longest that they are not sleepy"],
+    c: 0,
+    ok: "You. Every single time. And I stay on a little longer just to listen.",
+    no: "It is you, and you know it. I stay on a little longer just to listen." },
+  { q: "The first thing I want to do when we finally meet?",
+    a: ["Take a photo of us", "Hug you until you complain", "Just stand there and look at you"],
+    c: 1,
+    ok: "Exactly. And I am not letting go until you make me.",
+    no: "I want to hug you until you complain. Then hold on a little longer." },
+  { q: "How many more months do I plan on keeping you?",
+    a: ["Another seven", "A hundred", "I stopped counting a long time ago"],
+    c: 2,
+    ok: "I stopped counting. There is no number at the end of this for me.",
+    no: "None of those. I stopped counting — because I do not plan on this ending." }
+];
+
+(function quiz(){
+  const qText = document.getElementById('qText'), qOpts = document.getElementById('qOpts');
+  const qFb = document.getElementById('qFb'), qNext = document.getElementById('qNext');
+  const qBar = document.getElementById('qBar'), body = document.getElementById('qBody');
+  let i = 0, score = 0;
+
+  function render(){
+    const item = QUIZ[i];
+    qBar.style.width = ((i / QUIZ.length) * 100) + '%';
+    qText.textContent = item.q;
+    qFb.textContent = ''; qFb.classList.remove('in');
+    qNext.style.display = 'none';
+    qOpts.innerHTML = '';
+    item.a.forEach((t, n) => {
+      const b = document.createElement('button');
+      b.className = 'opt'; b.textContent = t;
+      b.addEventListener('click', () => answer(n, b));
+      qOpts.appendChild(b);
+    });
+  }
+
+  function answer(n, btn){
+    const item = QUIZ[i];
+    [...qOpts.children].forEach((b, k) => {
+      b.disabled = true;
+      if (k === item.c) b.classList.add('right');
+    });
+    if (n === item.c){ score++; qFb.textContent = item.ok; window.fireHearts(innerWidth / 2, innerHeight * .5, 30); }
+    else { btn.classList.add('wrong'); qFb.textContent = item.no; }
+    qFb.classList.add('in');
+    qNext.textContent = (i === QUIZ.length - 1) ? 'See how you did' : 'Next question';
+    qNext.style.display = '';
+  }
+
+  qNext.addEventListener('click', () => {
+    i++;
+    if (i < QUIZ.length){ render(); return; }
+    qBar.style.width = '100%';
+    const msg = score === QUIZ.length
+      ? "A perfect score. You know me better than anyone alive, and that is not an exaggeration."
+      : score >= 3
+        ? "Almost all of them. You know me — and the ones you missed, I will happily explain on our next call."
+        : "You got a few. Do not worry, my love, we have the rest of our lives for you to study.";
+    body.innerHTML =
+      '<h3 class="q">' + score + ' out of ' + QUIZ.length + '</h3>' +
+      '<div class="qfb in" style="color:var(--blush);font-size:1.15rem">' + msg + '</div>';
+    qNext.style.display = 'none';
+    window.fireHearts(innerWidth / 2, innerHeight / 2, 80);
+  });
+
+  render();
+})();
+
+/* ---- game 3: scratch this ---- */
+window.initScratch = (function scratch(){
+  const box = document.getElementById('scratch'), cv = document.getElementById('scCanvas');
+  const ctx = cv.getContext('2d', { willReadFrequently: true });
+  let ready = false, revealed = false, drawing = false, since = 0;
+
+  function paint(){
+    const r = box.getBoundingClientRect();
+    if (r.width < 10) return false;
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    cv.width = r.width * dpr; cv.height = r.height * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const g = ctx.createLinearGradient(0, 0, r.width, r.height);
+    g.addColorStop(0, '#33142c'); g.addColorStop(.5, '#6d2a4a'); g.addColorStop(1, '#b06a80');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, r.width, r.height);
+    ctx.fillStyle = 'rgba(255,222,232,.16)';
+    for (let n = 0; n < 90; n++){
+      ctx.beginPath();
+      ctx.arc(Math.random() * r.width, Math.random() * r.height, Math.random() * 2.2, 0, 7);
+      ctx.fill();
+    }
+    ctx.fillStyle = 'rgba(255,238,242,.85)';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.font = '400 15px Jost, system-ui, sans-serif';
+    ctx.fillText('S C R A T C H   T H I S   P A R T', r.width / 2, r.height / 2 - 12);
+    ctx.font = '400 26px "Great Vibes", cursive';
+    ctx.fillText('there is something under here', r.width / 2, r.height / 2 + 22);
+    ctx.globalCompositeOperation = 'destination-out';
+    return true;
+  }
+
+  function cleared(){
+    const d = ctx.getImageData(0, 0, cv.width, cv.height).data;
+    let clear = 0, total = 0;
+    for (let n = 3; n < d.length; n += 4 * 60){ total++; if (d[n] < 40) clear++; }
+    return total ? clear / total : 0;
+  }
+
+  function rub(e){
+    const r = cv.getBoundingClientRect();
+    ctx.beginPath();
+    ctx.arc(e.clientX - r.left, e.clientY - r.top, 28, 0, 7);
+    ctx.fill();
+    if (++since > 10){
+      since = 0;
+      if (cleared() > .52) reveal();
+    }
+  }
+
+  function reveal(){
+    if (revealed) return;
+    revealed = true;
+    cv.style.opacity = '0';
+    setTimeout(() => { cv.style.pointerEvents = 'none'; }, 900);
+    const r = box.getBoundingClientRect();
+    window.fireHearts(r.left + r.width / 2, r.top + r.height / 2, 100);
+  }
+
+  cv.addEventListener('pointerdown', e => {
+    if (revealed) return;
+    drawing = true; cv.setPointerCapture(e.pointerId); rub(e);
+  });
+  cv.addEventListener('pointermove', e => { if (drawing && !revealed) rub(e); });
+  addEventListener('pointerup', () => { drawing = false; });
+  addEventListener('resize', () => { if (!revealed && ready) ready = paint(); });
+
+  return function(){ if (!ready && !revealed) ready = paint(); };
+})();
+
+/* ---- game 4: one question ---- */
+(function question(){
+  const ask = document.getElementById('ask');
+  const yes = document.getElementById('yesBtn'), no = document.getElementById('noBtn');
+  const NOS = ['No', 'Are you sure?', 'Really?', 'Think about it', 'That is not an option',
+               'This button is broken', 'Try the other one', 'Please?'];
+  let n = 0;
+
+  function dodge(){
+    const box = ask.getBoundingClientRect(), b = no.getBoundingClientRect();
+    if (!no.classList.contains('loose')){
+      no.style.width = b.width + 'px';
+      no.classList.add('loose');
+    }
+    const maxX = Math.max(0, box.width - b.width - 8);
+    const maxY = Math.max(0, box.height - b.height - 8);
+    no.style.left = (Math.random() * maxX) + 'px';
+    no.style.top = (Math.random() * maxY) + 'px';
+    n++;
+    no.textContent = NOS[Math.min(n, NOS.length - 1)];
+    if (n > 4) no.style.transform = 'scale(' + Math.max(.55, 1 - (n - 4) * .12) + ')';
+  }
+  no.addEventListener('pointerenter', dodge);
+  no.addEventListener('click', e => { e.preventDefault(); dodge(); });
+
+  yes.addEventListener('click', () => {
+    ask.innerHTML =
+      '<div>' +
+        '<h3>Then that is settled.</h3>' +
+        '<p class="askp">The eighth month is yours. So is the ninth. So is every one after that, ' +
+        'for as long as you keep saying yes — and I have a feeling you will.</p>' +
+      '</div>';
+    let k = 0;
+    const rain = setInterval(() => {
+      window.fireHearts(Math.random() * innerWidth, innerHeight * .35, 24);
+      if (++k > 7) clearInterval(rain);
+    }, 260);
+  });
 })();
 
 /* a small surprise: click anywhere on the finale */
