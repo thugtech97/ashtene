@@ -78,6 +78,24 @@ img{max-width:100%;display:block;}
 .cursor-dot.big{transform:scale(2.6);}
 @media (hover:none){.cursor-glow,.cursor-dot{display:none;}}
 
+/* ---------- music toggle ---------- */
+.music-btn{position:fixed;right:18px;bottom:18px;z-index:60;width:44px;height:44px;
+  display:grid;place-items:center;border-radius:50%;cursor:pointer;
+  border:1px solid var(--line);background:var(--glass);backdrop-filter:blur(10px);
+  color:var(--blush);opacity:0;visibility:hidden;
+  transition:opacity .8s var(--ease),visibility .8s,transform .3s var(--ease),border-color .3s;}
+.music-btn.show{opacity:.75;visibility:visible;}
+.music-btn:hover{opacity:1;transform:scale(1.08);border-color:rgba(255,190,210,.4);}
+.music-btn .bars{display:flex;align-items:flex-end;gap:2.5px;height:15px;}
+.music-btn .bars i{width:2.5px;border-radius:2px;background:linear-gradient(180deg,var(--gold),var(--rose));
+  animation:eq .9s ease-in-out infinite;}
+.music-btn .bars i:nth-child(1){height:7px;animation-delay:-.5s;}
+.music-btn .bars i:nth-child(2){height:14px;animation-delay:-.2s;}
+.music-btn .bars i:nth-child(3){height:9px;animation-delay:-.7s;}
+.music-btn .bars i:nth-child(4){height:12px;}
+@keyframes eq{0%,100%{transform:scaleY(.35);}50%{transform:scaleY(1);}}
+.music-btn.muted .bars i{animation-play-state:paused;transform:scaleY(.35);opacity:.45;}
+
 /* ---------- progress ---------- */
 .progress{position:fixed;top:0;left:0;height:2px;width:0;z-index:50;
   background:linear-gradient(90deg,var(--rose),var(--gold));box-shadow:0 0 14px rgba(255,143,177,.7);}
@@ -405,6 +423,11 @@ h2.title em{font-family:var(--script);font-style:normal;font-size:1.32em;
 <div class="cursor-dot"></div>
 <div class="progress"></div>
 
+<audio id="song" src="Destiny - Jim Brickman (Official Lyrics Video).mp3" loop preload="auto"></audio>
+<button class="music-btn" id="musicBtn" aria-label="Toggle music" title="Our song">
+  <span class="bars"><i></i><i></i><i></i><i></i></span>
+</button>
+
 <!-- ============ THE GATE ============ -->
 <div class="gate" id="gate">
   <div class="gate-inner">
@@ -620,9 +643,11 @@ const LETTER =
    1. THE GATE
    ============================================================ */
 const gate = document.getElementById('gate');
+let playSong = () => {};
 function openGate(){
   if (gate.classList.contains('opening')) return;
   gate.classList.add('opening');
+  playSong();
   setTimeout(() => {
     gate.classList.add('gone');
     document.body.classList.remove('locked');
@@ -632,6 +657,47 @@ function openGate(){
 }
 document.getElementById('openBtn').addEventListener('click', openGate);
 document.getElementById('envelope').addEventListener('click', openGate);
+
+/* ============================================================
+   2. OUR SONG
+   ============================================================ */
+(function music(){
+  const song = document.getElementById('song');
+  const btn  = document.getElementById('musicBtn');
+  song.volume = 0;
+
+  function fadeTo(target, ms){
+    const from = song.volume, t0 = performance.now();
+    (function step(now){
+      const k = Math.min(1, (now - t0) / ms);
+      song.volume = from + (target - from) * k;
+      if (k < 1) requestAnimationFrame(step);
+    })(t0);
+  }
+
+  function start(){
+    song.play().then(() => {
+      btn.classList.add('show');
+      fadeTo(.55, 3000);
+    }).catch(() => {
+      // browser blocked it — show the button so she can start it herself
+      btn.classList.add('show','muted');
+    });
+  }
+  playSong = start;
+
+  btn.addEventListener('click', () => {
+    if (song.paused){
+      song.play();
+      btn.classList.remove('muted');
+      fadeTo(.55, 900);
+    } else {
+      fadeTo(0, 600);
+      setTimeout(() => song.pause(), 620);
+      btn.classList.add('muted');
+    }
+  });
+})();
 
 /* ============================================================
    3. THE COUNTER
